@@ -1,30 +1,29 @@
-/vendor/
-node_modules/
+/node_modules
+/public/images/uploads
+/public/hot
+/public/uploads
+/public/storage
+/public/build
+/public/build-*
+/storage/*.key
+/vendor
+.env
+.env.local
+.env.production
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
 npm-debug.log
 yarn-error.log
+.DS_Store
+public/.DS_Store
+public/images/.DS_Store
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
+# Exclude anything from /modules folder.
+/modules/*
+# Keep the modules directory structure
+!/modules/.gitkeep
 
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
-storage/*.key
-.env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
-
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json
+# Exclude release builds
+/releases
