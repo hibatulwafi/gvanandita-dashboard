@@ -1,29 +1,45 @@
-/node_modules
-/public/images/uploads
-/public/hot
-/public/uploads
-/public/storage
-/public/build
-/public/build-*
-/storage/*.key
+# Laravel & Composer
 /vendor
+/node_modules
+/storage/*.key
+
+# Environment files
 .env
 .env.local
 .env.production
 .env.backup
+
+# Laravel specific
+/public/hot
+/public/storage
+/public/uploads
+/public/images/uploads
+/public/build
+/public/build-*
+/public/images/.DS_Store
+public/.DS_Store
+
+# Logs & cache
 .phpunit.result.cache
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
-.DS_Store
-public/.DS_Store
-public/images/.DS_Store
 
-# Exclude anything from /modules folder.
+# OS generated
+.DS_Store
+
+# Homestead / Vagrant
+Homestead.json
+Homestead.yaml
+
+# IDE & Editor configs
+/.idea
+/.vscode
+/.husky
+/.junie
+
+# Custom: modules folder
 /modules/*
-# Keep the modules directory structure
 !/modules/.gitkeep
 
-# Exclude release builds
+# Custom: release builds
 /releases
