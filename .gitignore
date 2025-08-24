@@ -1,5 +1,4 @@
-# Laravel & Composer
-/vendor
+# Laravel & Composer\
 /node_modules
 /storage/*.key
 /storage/*.log
