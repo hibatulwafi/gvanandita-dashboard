@@ -347,8 +347,8 @@ class AdminMenuService
             });
 
             // Apply filters that might add/modify menu items.
-            $filteredItems = ld_apply_filters('sidebar_menu_' . strtolower($group), $filteredItems);
-
+            $filteredItems = ld_apply_filters('sidebar_menu_' . strtolower(strval($group)), $filteredItems);
+            
             // Only add the group if it has items after filtering.
             if (! empty($filteredItems)) {
                 $result[$group] = $filteredItems;

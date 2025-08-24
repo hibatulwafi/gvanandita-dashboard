@@ -17,6 +17,10 @@ use App\Http\Controllers\Backend\TermsController;
 use App\Http\Controllers\Backend\TranslationController;
 use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\Backend\HH\ApplicationsController;
+use App\Http\Controllers\Backend\HH\CandidatesController;
+use App\Http\Controllers\Backend\HH\JobsController;
+use App\Http\Controllers\Backend\HH\ClientsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -106,6 +110,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::prefix('ai')->name('ai.')->group(function () {
         Route::get('/providers', [App\Http\Controllers\Backend\AiContentController::class, 'getProviders'])->name('providers');
         Route::post('/generate-content', [App\Http\Controllers\Backend\AiContentController::class, 'generateContent'])->name('generate-content');
+    });
+
+    // Human Resource Management (HRM) Routes.
+    Route::prefix('hh')->name('hh.')->group(function () {
+        // Jobs
+        Route::resource('jobs', JobsController::class);
+        Route::delete('jobs/delete/bulk-delete', [JobsController::class, 'bulkDelete'])->name('jobs.bulk-delete');
+        // Candidates
+        Route::resource('candidates', CandidatesController::class);
+        Route::delete('candidates/delete/bulk-delete', [CandidatesController::class, 'bulkDelete'])->name('candidates.bulk-delete');
+        Route::get('candidates/{id}/download-resume', [CandidatesController::class, 'downloadResume'])->name('candidates.download-resume');
+        // Applications
+        Route::resource('applications', ApplicationsController::class);
+        Route::delete('applications/delete/bulk-delete', [ApplicationsController::class, 'bulkDelete'])->name('applications.bulk-delete');
+        // Clients
+        Route::resource('clients', ClientsController::class);
+        Route::delete('clients/delete/bulk-delete', [ClientsController::class, 'bulkDelete'])->name('clients.bulk-delete');
     });
 });
 
