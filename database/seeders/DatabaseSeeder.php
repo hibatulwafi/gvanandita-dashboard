@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             SettingsSeeder::class,
             ContentSeeder::class,
+            HhCandidatesTableSeeder::class,
+            HhCompaniesTableSeeder::class,
+            HhJobListingsTableSeeder::class,
+            HhApplicationsTableSeeder::class,
         ]);
     }
 }
