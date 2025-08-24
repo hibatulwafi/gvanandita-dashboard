@@ -12,8 +12,9 @@ trait HandlesMediaOperations
     /**
      * Format file size from bytes to human readable format
      */
-    protected function formatFileSize(int $bytes): string
+    protected function formatFileSize(int|string $bytes): string
     {
+        $bytes = (int) $bytes; // pastikan selalu jadi integer
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
@@ -22,6 +23,7 @@ trait HandlesMediaOperations
 
         return round($bytes, 2) . ' ' . $units[$i];
     }
+
 
     /**
      * Get file type category based on mime type
@@ -105,11 +107,29 @@ trait HandlesMediaOperations
     protected function isDangerousFile(UploadedFile $file): bool
     {
         $dangerousExtensions = [
-            'php', 'php3', 'php4', 'php5', 'phtml', 'phps',
-            'asp', 'aspx', 'jsp', 'jspx',
-            'exe', 'com', 'bat', 'cmd', 'scr',
-            'vbs', 'vbe', 'js', 'jar',
-            'pl', 'py', 'rb', 'sh',
+            'php',
+            'php3',
+            'php4',
+            'php5',
+            'phtml',
+            'phps',
+            'asp',
+            'aspx',
+            'jsp',
+            'jspx',
+            'exe',
+            'com',
+            'bat',
+            'cmd',
+            'scr',
+            'vbs',
+            'vbe',
+            'js',
+            'jar',
+            'pl',
+            'py',
+            'rb',
+            'sh',
         ];
 
         $extension = strtolower($file->getClientOriginalExtension());
