@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ContentSeeder::class,
             HhCandidatesTableSeeder::class,
             HhCompaniesTableSeeder::class,
+            HhJobCategoriesTableSeeder::class,
             HhJobListingsTableSeeder::class,
             HhApplicationsTableSeeder::class,
         ]);

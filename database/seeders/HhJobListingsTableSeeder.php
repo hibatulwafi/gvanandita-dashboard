@@ -12,7 +12,6 @@ class HhJobListingsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat 30 job listing secara acak
         HhJobListing::factory(30)->create();
     }
 }

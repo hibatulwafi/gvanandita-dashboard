@@ -19,20 +19,20 @@ class HhJobListingFactory extends Factory
 
         return [
             'company_id' => !empty($companyIds) ? $this->faker->randomElement($companyIds) : HhCompany::factory(),
-            'category_id' => !empty($categoryIds) ? $this->faker->randomElement($categoryIds) : HhJobCategory::factory(),
+            'category_id' => !empty($categoryIds) ? $this->faker->randomElement($categoryIds) : $this->faker->numberBetween(1, 9),
             'job_title' => $this->faker->jobTitle(),
             'description' => $this->faker->paragraphs(3, true),
-            'job_location_type' => $this->faker->randomElement(['On-site', 'Remote', 'Hybrid']),
-            'experience_level' => $this->faker->randomElement(['Junior', 'Mid', 'Senior']),
+            'job_location_type' => $this->faker->randomElement(['remote', 'onsite', 'hybrid']),
+            'experience_level' => $this->faker->randomElement(['entry', 'mid', 'senior']),
             'city' => $this->faker->city(),
             'country' => $this->faker->country(),
             'salary_currency' => 'IDR',
             'min_salary' => $this->faker->numberBetween(5_000_000, 10_000_000),
             'max_salary' => $this->faker->numberBetween(10_000_000, 25_000_000),
-            'job_type' => $this->faker->randomElement(['full-time', 'part-time', 'contract', 'freelance']),
-            'is_featured' => $this->faker->boolean(10),
-            'is_open' => $this->faker->boolean(95),
-            'expires_at' => $this->faker->dateTimeBetween('now', '+3 months'),
+            'job_type' => $this->faker->randomElement(['full-time', 'part-time', 'contract']),
+            'is_featured' => $this->faker->boolean(20), // 20% chance to be featured
+            'is_open' => true,
+            'expires_at' => $this->faker->dateTimeBetween('+1 month', '+3 months'),
             'published_at' => now(),
         ];
     }
