@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\HH\JobsController;
 use App\Http\Controllers\Backend\HH\ClientsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rules\Can;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,30 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::delete('/terms/{taxonomy}/{id}', [TermsController::class, 'destroy'])->name('terms.destroy');
     Route::delete('/terms/{taxonomy}/delete/bulk-delete', [TermsController::class, 'bulkDelete'])->name('terms.bulk-delete');
 
+
+    // Headhunters Routes.
+    Route::prefix('headhunters')->name('headhunters.')->group(function () {
+        Route::get('/candidates', [CandidatesController::class, 'index'])->name('candidates.index');
+        Route::get('/candidates/{id}', [CandidatesController::class, 'show'])->name('candidates.show');
+        Route::put('/candidates/{id}', [CandidatesController::class, 'update'])->name('candidates.update');
+
+        Route::get('/companies', [ClientsController::class, 'index'])->name('companies.index');
+        Route::get('/companies/{id}', [ClientsController::class, 'show'])->name('companies.show');
+        Route::put('/companies/{id}', [ClientsController::class, 'update'])->name('companies.update');
+
+
+        Route::get('/jobs', [JobsController::class, 'index'])->name('jobs.index');
+        Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.create');
+        Route::post('/jobs', [JobsController::class, 'store'])->name('jobs.store');
+        Route::get('/jobs/{id}', [JobsController::class, 'show'])->name('jobs.show');
+        Route::put('/jobs/{id}', [JobsController::class, 'update'])->name('jobs.update');
+        Route::delete('/jobs/{id}', [JobsController::class, 'destroy'])->name('jobs.destroy');
+        Route::delete('/jobs/delete/bulk-delete', [JobsController::class, 'bulkDelete'])->name('jobs.bulk-delete');
+
+        Route::get('/applications', [ApplicationsController::class, 'index'])->name('applications.index');
+        Route::get('/applications/{id}', [ApplicationsController::class, 'show'])->name('applications.show');
+        Route::put('/applications/{id}', [ApplicationsController::class, 'update'])->name('applications.update');
+    });
     // Media Routes.
     Route::prefix('media')->name('media.')->group(function () {
         Route::get('/', [MediaController::class, 'index'])->name('index');
@@ -110,23 +135,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::prefix('ai')->name('ai.')->group(function () {
         Route::get('/providers', [App\Http\Controllers\Backend\AiContentController::class, 'getProviders'])->name('providers');
         Route::post('/generate-content', [App\Http\Controllers\Backend\AiContentController::class, 'generateContent'])->name('generate-content');
-    });
-
-    // Human Resource Management (HRM) Routes.
-    Route::prefix('hh')->name('hh.')->group(function () {
-        // Jobs
-        Route::resource('jobs', JobsController::class);
-        Route::delete('jobs/delete/bulk-delete', [JobsController::class, 'bulkDelete'])->name('jobs.bulk-delete');
-        // Candidates
-        Route::resource('candidates', CandidatesController::class);
-        Route::delete('candidates/delete/bulk-delete', [CandidatesController::class, 'bulkDelete'])->name('candidates.bulk-delete');
-        Route::get('candidates/{id}/download-resume', [CandidatesController::class, 'downloadResume'])->name('candidates.download-resume');
-        // Applications
-        Route::resource('applications', ApplicationsController::class);
-        Route::delete('applications/delete/bulk-delete', [ApplicationsController::class, 'bulkDelete'])->name('applications.bulk-delete');
-        // Clients
-        Route::resource('clients', ClientsController::class);
-        Route::delete('clients/delete/bulk-delete', [ClientsController::class, 'bulkDelete'])->name('clients.bulk-delete');
     });
 });
 

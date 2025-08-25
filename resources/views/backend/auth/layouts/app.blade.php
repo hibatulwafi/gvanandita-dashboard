@@ -22,7 +22,9 @@
 
     <!-- Prevent FOUC (Flash of Unstyled Content) -->
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 
     @include('backend.layouts.partials.integration-scripts')
@@ -37,7 +39,7 @@
     sidebarToggle: false,
     scrollTop: false
 }"
-x-init="
+    x-init="
     darkMode = JSON.parse(localStorage.getItem('darkMode'));
     $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)));
     
@@ -46,7 +48,7 @@ x-init="
         document.querySelector('.auth-container').classList.add('loaded');
     });
 "
-:class="{ 'dark bg-gray-900': darkMode === true }">
+    :class="{ 'dark bg-gray-900': darkMode === true }">
 
     <!-- Page Wrapper with smooth fade-in -->
     <div class="auth-container flex h-screen overflow-hidden">
@@ -66,7 +68,7 @@ x-init="
                         </div>
                     </div>
 
-                    <div class="relative items-center hidden w-full h-full bg-brand-950 dark:bg-white/5 lg:grid lg:w-1/2">
+                    <div class="relative items-center hidden w-full h-full bg-gray-dark dark:bg-white/5 lg:grid lg:w-1/2">
                         <div class="flex items-center justify-center z-1">
                             <!-- ===== Common Grid Shape Start ===== -->
                             <div class="absolute right-0 top-0 -z-1 w-full max-w-[250px] xl:max-w-[450px]">
@@ -78,21 +80,21 @@ x-init="
 
                             <div class="flex flex-col items-center max-w-xs">
                                 <a href="#" class="block mb-4">
-                                    <img src="/images/logo/lara-dashboard-dark.png" alt="Logo">
+                                    <img src="/images/logo/app-logo-dark.png" alt="Logo">
                                 </a>
                                 <p class="text-center text-gray-400 dark:text-white/60">
-                                    {{ __('Free and Open-Source Laravel Admin Dashboard Template') }}
+                                    {{ __('Dashboard - PT Glory Victory Anandita') }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Toggler -->
                     <div class="fixed z-50 hidden bottom-6 right-6 sm:flex gap-2 items-center justify-center">
                         @include('backend.layouts.partials.locale-switcher', [
-                            'buttonClass' => 'inline-flex items-center justify-center text-white transition-colors rounded-full size-14 bg-brand-500 hover:bg-brand-600',
-                            'iconClass' => 'text-white',
-                            'iconSize' => '24',
+                        'buttonClass' => 'inline-flex items-center justify-center text-white transition-colors rounded-full size-14 bg-brand-500 hover:bg-brand-600',
+                        'iconClass' => 'text-white',
+                        'iconSize' => '24',
                         ])
                         <button
                             class="inline-flex items-center justify-center text-white transition-colors rounded-full size-14 bg-brand-500 hover:bg-brand-600 dark-mode-toggle"
@@ -121,7 +123,7 @@ x-init="
 
     @if (!empty(config('settings.global_custom_js')))
     <script>
-        {!! config('settings.global_custom_js') !!}
+    {{ config('settings.global_custom_js') }}
     </script>
     @endif
 </body>
