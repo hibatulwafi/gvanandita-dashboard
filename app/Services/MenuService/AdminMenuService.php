@@ -109,6 +109,56 @@ class AdminMenuService
         $this->registerPostTypesInMenu(null);
 
         $this->addMenuItem([
+            'label' => __('Headhunters'),
+            'icon' => 'lucide:briefcase',
+            'id' => 'headhunter-submenu',
+            'active' => request()->is('admin/headhunters/*'),
+            'priority' => 20,
+            'permissions' => [
+                'headhunters.candidates.view',
+            ],
+            'children' => [
+                [
+                    'label' => __('Candidates'),
+                    'route' => route('admin.headhunters.candidates.index'),
+                    'icon' => 'lucide:users',
+                    'active' => request()->is('admin/headhunters/candidates*'),
+                    'permissions' => 'headhunters.candidates.view',
+                ],
+                [
+                    'label' => __('Companies'),
+                    'route' => route('admin.headhunters.companies.index'),
+                    'icon' => 'lucide:building-2',
+                    'active' => request()->is('admin/headhunters/companies*'),
+                    'permissions' => 'headhunters.companies.view',
+                ],
+                [
+                    'label' => __('Job Categories'),
+                    'route' => route('admin.headhunters.job-categories.index'),
+                    'icon' => 'lucide:tag',
+                    'active' => request()->is('admin/headhunters/job-categories*'),
+                    'permissions' => 'headhunters.job-categories.view',
+                ],
+                [
+                    'label' => __('Jobs'),
+                    'route' => route('admin.headhunters.jobs.index'),
+                    'icon' => 'lucide:briefcase-business',
+                    'active' => request()->is('admin/headhunters/jobs*'),
+                    'permissions' => 'headhunters.jobs.view',
+                ],
+                [
+                    'label' => __('Applications'),
+                    'route' => route('admin.headhunters.applications.index'),
+                    'icon' => 'lucide:file-text',
+                    'active' => request()->is('admin/headhunters/applications*'),
+                    'permissions' => 'headhunters.applications.view',
+                ],
+            ],
+        ], __('Main'));
+
+
+
+        $this->addMenuItem([
             'label' => __('Media Library'),
             'icon' => 'lucide:image',
             'route' => route('admin.media.index'),
@@ -348,7 +398,7 @@ class AdminMenuService
 
             // Apply filters that might add/modify menu items.
             $filteredItems = ld_apply_filters('sidebar_menu_' . strtolower(strval($group)), $filteredItems);
-            
+
             // Only add the group if it has items after filtering.
             if (! empty($filteredItems)) {
                 $result[$group] = $filteredItems;

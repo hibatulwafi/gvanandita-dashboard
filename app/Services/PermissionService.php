@@ -16,115 +16,24 @@ class PermissionService
      */
     public function getAllPermissions(): array
     {
-        $permissions = [
-            [
-                'group_name' => 'dashboard',
-                'permissions' => [
-                    'dashboard.view',
-                ],
-            ],
-            [
-                'group_name' => 'blog',
-                'permissions' => [
-                    'blog.create',
-                    'blog.view',
-                    'blog.edit',
-                    'blog.delete',
-                    'blog.approve',
-                ],
-            ],
-            [
-                'group_name' => 'user',
-                'permissions' => [
-                    'user.create',
-                    'user.view',
-                    'user.edit',
-                    'user.delete',
-                    'user.approve',
-                    'user.login_as',
-                ],
-            ],
-            [
-                'group_name' => 'role',
-                'permissions' => [
-                    'role.create',
-                    'role.view',
-                    'role.edit',
-                    'role.delete',
-                    'role.approve',
-                ],
-            ],
-            [
-                'group_name' => 'module',
-                'permissions' => [
-                    'module.create',
-                    'module.view',
-                    'module.edit',
-                    'module.delete',
-                ],
-            ],
-            [
-                'group_name' => 'profile',
-                'permissions' => [
-                    'profile.view',
-                    'profile.edit',
-                    'profile.delete',
-                    'profile.update',
-                ],
-            ],
-            [
-                'group_name' => 'monitoring',
-                'permissions' => [
-                    'pulse.view',
-                    'actionlog.view',
-                ],
-            ],
-            [
-                'group_name' => 'settings',
-                'permissions' => [
-                    'settings.view',
-                    'settings.edit',
-                ],
-            ],
-            [
-                'group_name' => 'translations',
-                'permissions' => [
-                    'translations.view',
-                    'translations.edit',
-                ],
-            ],
-            [
-                'group_name' => 'post',
-                'permissions' => [
-                    'post.create',
-                    'post.view',
-                    'post.edit',
-                    'post.delete',
-                    'term.create',
-                    'term.view',
-                    'term.edit',
-                    'term.delete',
-                ],
-            ],
-            [
-                'group_name' => 'media',
-                'permissions' => [
-                    'media.create',
-                    'media.view',
-                    'media.edit',
-                    'media.delete',
-                ],
-            ],
-            [
-                'group_name' => 'ai_content',
-                'permissions' => [
-                    'ai_content.generate',
-                ],
-            ],
-        ];
+        $permissions = Permission::select('group_name')
+            ->groupBy('group_name')
+            ->get();
 
-        return $permissions;
+        $result = [];
+
+        foreach ($permissions as $group) {
+            $result[] = [
+                'group_name'  => $group->group_name,
+                'permissions' => Permission::where('group_name', $group->group_name)
+                    ->pluck('name')
+                    ->toArray(),
+            ];
+        }
+
+        return $result;
     }
+
 
     /**
      * Get a specific set of permissions by group name
