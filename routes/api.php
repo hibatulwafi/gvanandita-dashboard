@@ -13,7 +13,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Backend\Api\TermsController;
 use App\Http\Controllers\Backend\HH\ApplicationsController;
 use App\Http\Controllers\Backend\HH\CandidatesController;
-use App\Http\Controllers\Backend\HH\JobsController;
+use App\Http\Controllers\Backend\HH\JobListingController;
+use App\Http\Controllers\Backend\HH\JobCategoryController;
 use App\Http\Controllers\Backend\HH\ClientsController;
 use Illuminate\Support\Facades\Route;
 
@@ -99,9 +100,13 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::get('/companies/{id}', [ClientsController::class, 'show'])->name('api.headhunters.companies.show');
         Route::put('/companies/{id}', [ClientsController::class, 'update'])->name('api.headhunters.companies.update');
 
-        Route::get('/jobs', [JobsController::class, 'index'])->name('api.headhunters.jobs.index');
-        Route::get('/jobs/{id}', [JobsController::class, 'show'])->name('api.headhunters.jobs.show');
-        Route::put('/jobs/{id}', [JobsController::class, 'update'])->name('api.headhunters.jobs.update');
+        Route::get('/jobs', [JobListingController::class, 'index'])->name('api.headhunters.jobs.index');
+        Route::get('/jobs/{id}', [JobListingController::class, 'show'])->name('api.headhunters.jobs.show');
+        Route::put('/jobs/{id}', [JobListingController::class, 'update'])->name('api.headhunters.jobs.update');
+
+        Route::get('/job-categories', [JobCategoryController::class, 'index'])->name('api.headhunters.job-applications.index');
+        Route::get('/job-categories/{id}', [JobCategoryController::class, 'show'])->name('api.headhunters.job-applications.show');
+        Route::put('/job-categories/{id}', [JobCategoryController::class, 'update'])->name('api.headhunters.job-applications.update');
 
         Route::get('/applications', [ApplicationsController::class, 'index'])->name('api.headhunters.applications.index');
         Route::get('/applications/{id}', [ApplicationsController::class, 'show'])->name('api.headhunters.applications.show');

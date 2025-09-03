@@ -99,19 +99,32 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     // Headhunters Routes.
     Route::prefix('headhunters')->name('headhunters.')->group(function () {
-        Route::get('/candidates', [CandidatesController::class, 'index'])->name('candidates.index');
-        Route::get('/candidates/{id}', [CandidatesController::class, 'show'])->name('candidates.show');
-        Route::put('/candidates/{id}', [CandidatesController::class, 'update'])->name('candidates.update');
 
-        Route::get('/companies', [CompaniesController::class, 'index'])->name('companies.index');
-        Route::get('/companies/create', [CompaniesController::class, 'create'])->name('companies.create');
-        Route::post('/companies', [CompaniesController::class, 'store'])->name('companies.store');
-        Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
-        Route::get('/companies/{id}/edit', [CompaniesController::class, 'edit'])->name('companies.edit');
-        Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
-        Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
-        Route::delete('/companies/delete/bulk-delete', [CompaniesController::class, 'bulkDelete'])->name('companies.bulk-delete');
+        // Candidates
+        Route::prefix('candidates')->name('candidates.')->group(function () {
+            Route::get('/', [CandidatesController::class, 'index'])->name('index');
+            Route::get('/create', [CandidatesController::class, 'create'])->name('create');
+            Route::post('/', [CandidatesController::class, 'store'])->name('store');
+            Route::get('/{id}', [CandidatesController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [CandidatesController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [CandidatesController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CandidatesController::class, 'destroy'])->name('destroy');
+            Route::delete('/bulk-delete', [CandidatesController::class, 'bulkDelete'])->name('bulk-delete');
+        });
 
+        // Companies
+        Route::prefix('companies')->name('companies.')->group(function () {
+            Route::get('/', [CompaniesController::class, 'index'])->name('index');
+            Route::get('/create', [CompaniesController::class, 'create'])->name('create');
+            Route::post('/', [CompaniesController::class, 'store'])->name('store');
+            Route::get('/{id}', [CompaniesController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [CompaniesController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [CompaniesController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CompaniesController::class, 'destroy'])->name('destroy');
+            Route::delete('/bulk-delete', [CompaniesController::class, 'bulkDelete'])->name('bulk-delete');
+        });
+
+        // Jobs
         Route::prefix('jobs')->name('jobs.')->group(function () {
             Route::get('/', [JobListingController::class, 'index'])->name('index');
             Route::get('/create', [JobListingController::class, 'create'])->name('create');
@@ -120,7 +133,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             Route::get('/{id}/edit', [JobListingController::class, 'edit'])->name('edit');
             Route::put('/{id}', [JobListingController::class, 'update'])->name('update');
             Route::delete('/{id}', [JobListingController::class, 'destroy'])->name('destroy');
-            Route::delete('/delete/bulk-delete', [JobListingController::class, 'bulkDelete'])->name('bulk-delete');
+            Route::delete('/bulk-delete', [JobListingController::class, 'bulkDelete'])->name('bulk-delete');
         });
 
         // Job Categories
@@ -131,13 +144,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             Route::get('/{id}/edit', [JobCategoryController::class, 'edit'])->name('edit');
             Route::put('/{id}', [JobCategoryController::class, 'update'])->name('update');
             Route::delete('/{id}', [JobCategoryController::class, 'destroy'])->name('destroy');
-            Route::delete('/delete/bulk-delete', [JobCategoryController::class, 'bulkDelete'])->name('bulk-delete');
+            Route::delete('/bulk-delete', [JobCategoryController::class, 'bulkDelete'])->name('bulk-delete');
         });
 
-        Route::get('/applications', [ApplicationsController::class, 'index'])->name('applications.index');
-        Route::get('/applications/{id}', [ApplicationsController::class, 'show'])->name('applications.show');
-        Route::put('/applications/{id}', [ApplicationsController::class, 'update'])->name('applications.update');
+        // Applications
+        Route::prefix('applications')->name('applications.')->group(function () {
+            Route::get('/', [ApplicationsController::class, 'index'])->name('index');
+            Route::get('/create', [ApplicationsController::class, 'create'])->name('create');
+            Route::post('/', [ApplicationsController::class, 'store'])->name('store');
+            Route::get('/{id}', [ApplicationsController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [ApplicationsController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ApplicationsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ApplicationsController::class, 'destroy'])->name('destroy');
+            Route::delete('/bulk-delete', [ApplicationsController::class, 'bulkDelete'])->name('bulk-delete');
+        });
     });
+
     // Media Routes.
     Route::prefix('media')->name('media.')->group(function () {
         Route::get('/', [MediaController::class, 'index'])->name('index');

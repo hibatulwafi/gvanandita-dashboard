@@ -1,11 +1,73 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Backend\HH;
 
 use App\Http\Controllers\Controller;
+use App\Models\HhApplication;
+use App\Services\Headhunter\ApplicationService;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller
 {
-    //
+    public function __construct(private readonly ApplicationService $applicationService) {}
+
+    public function index(Request $request): Renderable
+    {
+        $filters = [
+            'search' => $request->search,
+        ];
+
+        $applications = $this->applicationService->get($filters);
+
+        return view('backend.pages.applications.index', compact('applications'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => 'Job Applications',
+                ],
+            ]);
+    }
+
+    public function show(string $id): Renderable
+    {
+        $application = HhApplication::with(['candidate', 'jobListing'])->findOrFail($id);
+
+        return view('backend.pages.applications.show', compact('application'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => 'View Application',
+                    'items' => [
+                        ['label' => 'Job Applications', 'url' => route('admin.headhunters.applications.index')],
+                    ],
+                ],
+            ]);
+    }
+
+    public function destroy(string $id): RedirectResponse
+    {
+        $application = HhApplication::findOrFail($id);
+
+        $this->applicationService->delete($application);
+
+        return redirect()->route('admin.headhunters.applications.index')
+            ->with('success', 'Application deleted successfully.');
+    }
+
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $ids = $request->input('ids', []);
+
+        if (empty($ids)) {
+            return redirect()->route('admin.headhunters.applications.index')
+                ->with('error', 'No applications selected for deletion.');
+        }
+
+        $deleted = $this->applicationService->bulkDelete($ids);
+
+        return redirect()->route('admin.headhunters.applications.index')
+            ->with('success', "$deleted applications deleted successfully.");
+    }
 }

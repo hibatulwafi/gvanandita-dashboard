@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\HHCompany\StoreHhCompanyRequest;
 use App\Http\Requests\HHCompany\UpdateHhCompanyRequest;
 use App\Models\HhCompany;
+use App\Models\User;
 use App\Services\Headhunter\CompanyService;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -40,9 +42,11 @@ class CompaniesController extends Controller
             ]);
     }
 
-    public function create(): Renderable
+    public function create(): View
     {
         // $this->authorize('create', HhCompany::class);
+
+        $users = User::all();
 
         return view('backend.pages.companies.create')
             ->with([
@@ -55,6 +59,7 @@ class CompaniesController extends Controller
                         ],
                     ],
                 ],
+                'users' => $users
             ]);
     }
 
@@ -62,7 +67,9 @@ class CompaniesController extends Controller
     {
         // $this->authorize('create', HhCompany::class);
 
-        $this->companyService->create($request->validated());
+        $validatedData = $request->validated();
+
+        $this->companyService->create($validatedData);
 
         return redirect()->route('admin.headhunters.companies.index')
             ->with('success', 'Company created successfully');
@@ -70,8 +77,8 @@ class CompaniesController extends Controller
 
     public function show(string $id): Renderable
     {
-        $company = HhCompany::findOrFail($id);
         // $this->authorize('view', $company);
+        $company = HhCompany::findOrFail($id);
 
         return view('backend.pages.companies.show', compact('company'))
             ->with([
@@ -89,8 +96,9 @@ class CompaniesController extends Controller
 
     public function edit(string $id): Renderable
     {
-        $company = HhCompany::findOrFail($id);
         // $this->authorize('update', $company);
+        $company = HhCompany::findOrFail($id);
+        $users = User::all();
 
         return view('backend.pages.companies.edit', compact('company'))
             ->with([
@@ -103,6 +111,7 @@ class CompaniesController extends Controller
                         ],
                     ],
                 ],
+                'users' => $users
             ]);
     }
 

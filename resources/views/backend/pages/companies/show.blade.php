@@ -1,37 +1,63 @@
-{{-- resources/views/backend/pages/companies/show.blade.php --}}
 @extends('backend.layouts.app')
 
-@section('content')
-<div class="p-6 max-w-4xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6">Company: {{ $company->company_name }}</h1>
+@section('title')
+{{ __($breadcrumbs['title']) }} | {{ config('app.name') }}
+@endsection
 
-    <div class="bg-white shadow rounded-lg p-6 space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Industry</span>
-                <span>{{ $company->industry }}</span>
+@section('admin-content')
+
+<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
+
+    <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-900">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+            {{-- Bagian Kiri --}}
+            <div>
+                <div class="mb-4">
+                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">Basic Information</h3>
+                    <hr class="mt-1 mb-2 border-gray-200 dark:border-gray-700">
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Industry:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->industry }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Status:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->is_active ? 'Active' : 'Inactive' }}</span>
+                        </div>
+                        @if ($company->address)
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Address:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->address }}</span>
+                        </div>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Active</span>
-                <span>{{ $company->is_active ? 'Yes' : 'No' }}</span>
-            </div>
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Contact Person</span>
-                <span>{{ $company->contact_person_name }}</span>
-            </div>
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Email</span>
-                <span>{{ $company->contact_person_email }}</span>
-            </div>
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Phone</span>
-                <span>{{ $company->contact_person_phone }}</span>
-            </div>
-            <div class="flex">
-                <span class="w-40 font-medium text-gray-600">Address</span>
-                <span>{{ $company->address }}</span>
+
+            {{-- Bagian Kanan --}}
+            <div>
+                <div class="mb-4">
+                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">Contact Person</h3>
+                    <hr class="mt-1 mb-2 border-gray-200 dark:border-gray-700">
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Name:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->contact_person_name }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Email:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->contact_person_email }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">Phone:</span>
+                            <span class="text-gray-900 dark:text-white">{{ $company->contact_person_phone }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
 @endsection

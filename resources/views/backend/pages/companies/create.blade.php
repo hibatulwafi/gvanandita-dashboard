@@ -1,53 +1,23 @@
-{{-- resources/views/backend/pages/companies/create.blade.php --}}
 @extends('backend.layouts.app')
 
-@section('content')
-<div class="p-6 max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6">New Company</h1>
+@section('title')
+New Company | {{ config('app.name') }}
+@endsection
 
+@section('admin-content')
+<div class="p-4 mx-auto max-w-7xl md:p-6">
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
+    {!! ld_apply_filters('companies_create_after_breadcrumbs', '', 'company') !!}
     <form action="{{ route('admin.headhunters.companies.store') }}" method="POST" class="space-y-4">
         @csrf
-
-        <div>
-            <label class="block mb-1 font-medium">Company Name</label>
-            <input type="text" name="company_name" class="w-full border rounded-lg p-2" required>
-        </div>
-
-        <div>
-            <label class="block mb-1 font-medium">Industry</label>
-            <input type="text" name="industry" class="w-full border rounded-lg p-2">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label class="block mb-1 font-medium">Contact Person Name</label>
-                <input type="text" name="contact_person_name" class="w-full border rounded-lg p-2">
-            </div>
-            <div>
-                <label class="block mb-1 font-medium">Contact Person Email</label>
-                <input type="email" name="contact_person_email" class="w-full border rounded-lg p-2">
-            </div>
-        </div>
-
-        <div>
-            <label class="block mb-1 font-medium">Contact Person Phone</label>
-            <input type="text" name="contact_person_phone" class="w-full border rounded-lg p-2">
-        </div>
-
-        <div>
-            <label class="block mb-1 font-medium">Address</label>
-            <textarea name="address" rows="3" class="w-full border rounded-lg p-2"></textarea>
-        </div>
-
-        <div class="flex items-center space-x-2">
-            <input type="checkbox" name="is_active" value="1" id="is_active" class="rounded">
-            <label for="is_active">Active</label>
-        </div>
-
-        <button type="submit" 
+        @include('backend.pages.companies.partials.form')
+        <div class="mt-4">
+            <button type="submit"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Save
-        </button>
+                Save
+            </button>
+        </div>
     </form>
+    {!! ld_apply_filters('after_company_form', '') !!}
 </div>
 @endsection
