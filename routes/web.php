@@ -154,7 +154,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             Route::post('/', [ApplicationsController::class, 'store'])->name('store');
             Route::get('/{id}', [ApplicationsController::class, 'show'])->name('show');
             Route::get('/{id}/edit', [ApplicationsController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [ApplicationsController::class, 'update'])->name('update');
+            Route::put('/{id}', [ApplicationsController::class, 'updateStatus'])->name('update');
             Route::delete('/{id}', [ApplicationsController::class, 'destroy'])->name('destroy');
             Route::delete('/bulk-delete', [ApplicationsController::class, 'bulkDelete'])->name('bulk-delete');
         });

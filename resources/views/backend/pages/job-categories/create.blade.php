@@ -6,7 +6,7 @@
 
 @section('admin-content')
 
-<div class="p-4 mx-auto max-w-4xl md:p-6">
+<div class="p-4 mx-auto max-w-7xl md:p-6">
     <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
     <form action="{{ route('admin.headhunters.job-categories.store') }}" method="POST" class="space-y-4">

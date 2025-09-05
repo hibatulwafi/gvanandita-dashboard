@@ -19,7 +19,9 @@ class ApplicationsController extends Controller
     {
         $filters = [
             'search' => $request->search,
+            'status' => $request->status,
         ];
+
 
         $applications = $this->applicationService->get($filters);
 
@@ -44,6 +46,28 @@ class ApplicationsController extends Controller
                     ],
                 ],
             ]);
+    }
+
+    /**
+     * Update the status and feedback for a job application.
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function updateStatus(Request $request, string $id): RedirectResponse
+    {
+        $application = HhApplication::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'status' => 'required|string|in:applied,in_review,interview,rejected,hired',
+            'feedback' => 'nullable|string',
+        ]);
+
+        $this->applicationService->updateStatusAndFeedback($application, $validatedData);
+
+        return redirect()->route('admin.headhunters.applications.show', $application->id)
+            ->with('success', 'Application status and feedback updated successfully.');
     }
 
     public function destroy(string $id): RedirectResponse
