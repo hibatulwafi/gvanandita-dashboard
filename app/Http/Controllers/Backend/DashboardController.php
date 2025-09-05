@@ -11,15 +11,21 @@ use App\Services\Charts\UserChartService;
 use App\Services\LanguageService;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+// Headhunter models
+use App\Models\HhCandidate;
+use App\Models\HhJobListing as HhJob;
+use App\Models\HhCompany;
+use App\Models\HhApplication;
+use App\Services\Charts\CandidateChartService;
 
 class DashboardController extends Controller
 {
     public function __construct(
         private readonly UserChartService $userChartService,
         private readonly LanguageService $languageService,
-        private readonly PostChartService $postChartService
-    ) {
-    }
+        private readonly PostChartService $postChartService,
+        // private readonly CandidateChartService $candidateChartService
+    ) {}
 
     public function index()
     {
@@ -35,6 +41,10 @@ class DashboardController extends Controller
                     'total' => number_format(count($this->languageService->getLanguages())),
                     'active' => number_format(count($this->languageService->getActiveLanguages())),
                 ],
+                'total_candidate' => number_format(HhCandidate::count()),
+                'total_job' => number_format(HhJob::count()),
+                'total_company' => number_format(HhCompany::count()),
+                'total_application' => number_format(HhApplication::count()),
                 'user_growth_data' => $this->userChartService->getUserGrowthData(
                     request()->get('chart_filter_period', 'last_12_months')
                 )->getData(true),
