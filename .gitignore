@@ -23,8 +23,8 @@
 /public/storage
 /public/uploads
 /public/images/uploads
-/public/build
-/public/build-*
+# /public/build
+# /public/build-*
 /public/images/.DS_Store
 public/.DS_Store
 
