@@ -12,15 +12,15 @@ trait HandlesMediaOperations
     /**
      * Format file size from bytes to human readable format
      */
-    protected function formatFileSize(int $bytes): string
+    public function formatFileSize(int|string $bytes): string
     {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
-            $bytes /= 1024;
+        $bytes = (int) $bytes; // pastikan integer
+        if ($bytes >= 1048576) {
+            return number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            return number_format($bytes / 1024, 2) . ' KB';
         }
-
-        return round($bytes, 2) . ' ' . $units[$i];
+        return $bytes . ' B';
     }
 
     /**
@@ -105,11 +105,29 @@ trait HandlesMediaOperations
     protected function isDangerousFile(UploadedFile $file): bool
     {
         $dangerousExtensions = [
-            'php', 'php3', 'php4', 'php5', 'phtml', 'phps',
-            'asp', 'aspx', 'jsp', 'jspx',
-            'exe', 'com', 'bat', 'cmd', 'scr',
-            'vbs', 'vbe', 'js', 'jar',
-            'pl', 'py', 'rb', 'sh',
+            'php',
+            'php3',
+            'php4',
+            'php5',
+            'phtml',
+            'phps',
+            'asp',
+            'aspx',
+            'jsp',
+            'jspx',
+            'exe',
+            'com',
+            'bat',
+            'cmd',
+            'scr',
+            'vbs',
+            'vbe',
+            'js',
+            'jar',
+            'pl',
+            'py',
+            'rb',
+            'sh',
         ];
 
         $extension = strtolower($file->getClientOriginalExtension());
