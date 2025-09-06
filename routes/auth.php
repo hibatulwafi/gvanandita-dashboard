@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationController as UserVerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPasswordController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

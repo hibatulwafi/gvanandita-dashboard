@@ -16,6 +16,8 @@ use App\Http\Controllers\Backend\HH\CandidatesController;
 use App\Http\Controllers\Backend\HH\JobListingController;
 use App\Http\Controllers\Backend\HH\JobCategoryController;
 use App\Http\Controllers\Backend\HH\ClientsController;
+use App\Http\Controllers\Api\Headhunter\AuthCandidateController;
+use App\Http\Controllers\Api\Headhunter\ApplicationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +55,16 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+// Auth Frontend
+Route::prefix('candidate')->group(function () {
+    Route::post('/login', [AuthCandidateController::class, 'login']);
+    Route::post('/register', [AuthCandidateController::class, 'register']);
+    Route::get('/jobs', [JobListingController::class, 'indexPublic']);
+    Route::get('/jobs/{id}', [JobListingController::class, 'showPublic']);
+    Route::middleware('auth:candidate')->group(function () {
+        Route::post('/applications', [ApplicationController::class, 'store']);
+    });
+});
 // Protected API routes
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 

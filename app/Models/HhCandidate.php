@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class HhCandidate extends Model
+class HhCandidate extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, Notifiable;
 
-    // Nama tabel (karena tidak ikut konvensi jamak Laravel)
     protected $table = 'hh_candidates';
 
-    // Kolom yang bisa diisi mass assignment
     protected $fillable = [
         'uuid',
         'first_name',
@@ -40,7 +40,6 @@ class HhCandidate extends Model
         'is_profile_complete',
     ];
 
-    // Tipe data casting
     protected $casts = [
         'email_verified_at'   => 'datetime',
         'phone_verified_at'   => 'datetime',
@@ -48,5 +47,10 @@ class HhCandidate extends Model
         'is_profile_complete' => 'boolean',
         'current_salary'      => 'decimal:2',
         'expected_salary'     => 'decimal:2',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 }

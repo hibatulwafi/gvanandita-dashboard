@@ -125,4 +125,39 @@ class JobListingController extends Controller
         return redirect()->route('admin.headhunters.jobs.index')
             ->with('success', "$deleted jobs deleted successfully.");
     }
+
+    public function indexPublic(Request $request)
+    {
+        $query = HhJobListing::with(['company', 'category']);
+
+        // Filter berdasarkan negara
+        if ($request->has('country') && $request->country !== 'All') {
+            $query->where('country', $request->country);
+        }
+
+        // Filter berdasarkan posisi (judul pekerjaan)
+        if ($request->has('position') && !empty($request->position)) {
+            $query->where('job_title', 'like', '%' . $request->position . '%');
+        }
+
+        // Filter berdasarkan lokasi (city)
+        if ($request->has('location') && !empty($request->location)) {
+            $query->where('city', 'like', '%' . $request->location . '%');
+        }
+
+        // Pagination (default 10 per halaman)
+        $jobs = $query->orderBy('published_at', 'desc')->paginate($request->get('per_page', 10));
+
+        return response()->json($jobs);
+    }
+
+    /**
+     * Display the specified job details.
+     */
+    public function showPublic($id)
+    {
+        $job = HhJobListing::with(['company', 'category'])->findOrFail($id);
+
+        return response()->json($job);
+    }
 }
