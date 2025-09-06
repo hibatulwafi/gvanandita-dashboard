@@ -63,6 +63,7 @@ Route::prefix('candidate')->group(function () {
     Route::get('/jobs/{id}', [JobListingController::class, 'showPublic']);
     Route::middleware('auth:candidate')->group(function () {
         Route::post('/applications', [ApplicationController::class, 'store']);
+        Route::get('/applications/history', [ApplicationController::class, 'history']);
     });
 });
 // Protected API routes

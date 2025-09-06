@@ -11,8 +11,6 @@ class ApplicationController extends Controller
 {
     public function store(Request $request)
     {
-        \Log::info('Apply Request:', $request->all());
-
         $request->validate([
             'job_listing_id' => 'required|exists:hh_job_listings,id',
         ]);
@@ -42,5 +40,23 @@ class ApplicationController extends Controller
             'message' => 'Application submitted successfully.',
             'data'    => $application,
         ], 201);
+    }
+
+    public function history()
+    {
+        $candidate = Auth::user();
+        if (!$candidate) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $applications = HhApplication::with('jobListing.company', 'jobListing.category')
+            ->where('candidate_id', $candidate->id)
+            ->orderBy('applied_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'message' => 'Application history fetched successfully.',
+            'data'    => $applications,
+        ]);
     }
 }
