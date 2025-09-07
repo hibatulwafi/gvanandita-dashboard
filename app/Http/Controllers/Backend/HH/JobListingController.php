@@ -131,32 +131,74 @@ class JobListingController extends Controller
         $query = HhJobListing::with(['company', 'category']);
 
         // Filter berdasarkan negara
-        if ($request->has('country') && $request->country !== 'All') {
+        if ($request->filled('country') && $request->country !== 'All') {
             $query->where('country', $request->country);
         }
 
         // Filter berdasarkan posisi (judul pekerjaan)
-        if ($request->has('position') && !empty($request->position)) {
+        if ($request->filled('position')) {
             $query->where('job_title', 'like', '%' . $request->position . '%');
         }
 
         // Filter berdasarkan lokasi (city)
-        if ($request->has('location') && !empty($request->location)) {
+        if ($request->filled('location')) {
             $query->where('city', 'like', '%' . $request->location . '%');
         }
 
+        // 🔹 Filter tambahan biar sesuai dengan Vue
+        // Tipe pekerjaan (full-time, part-time, remote, dsb.)
+        if ($request->has('job_types') && is_array($request->job_types)) {
+            $query->whereIn('job_type', $request->job_types);
+        }
+
+        // Lokasi kerja (onsite / remote / hybrid)
+        if ($request->has('job_location_types') && is_array($request->job_location_types)) {
+            $query->whereIn('job_location_type', $request->job_location_types);
+        }
+
+        // Kategori (misalnya IT, Finance, Marketing, dsb.)
+        if ($request->has('categories') && is_array($request->categories)) {
+            $query->whereIn('category_id', $request->categories);
+        }
+
+        // Level pengalaman (Junior, Mid, Senior)
+        if ($request->has('experience_levels') && is_array($request->experience_levels)) {
+            $query->whereIn('experience_level', $request->experience_levels);
+        }
+
         // Pagination (default 10 per halaman)
-        $jobs = $query->orderBy('published_at', 'desc')->paginate($request->get('per_page', 10));
+        $jobs = $query->orderBy('published_at', 'desc')
+            ->paginate($request->get('per_page', 10));
 
         return response()->json($jobs);
     }
 
+
+    public function filtersPublic()
+    {
+        return response()->json([
+            'job_location_types' => HhJobListing::select('job_location_type')
+                ->distinct()
+                ->pluck('job_location_type'),
+            'experience_levels' => HhJobListing::select('experience_level')
+                ->distinct()
+                ->pluck('experience_level'),
+            'job_types' => HhJobListing::select('job_type')
+                ->distinct()
+                ->pluck('job_type'),
+            'categories' => HhJobCategory::select('id', 'name')->get(),
+        ]);
+    }
+
+
     /**
      * Display the specified job details.
      */
-    public function showPublic($id)
+    public function showPublic(string $slug)
     {
-        $job = HhJobListing::with(['company', 'category'])->findOrFail($id);
+        $job = HhJobListing::with(['company', 'category'])
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         return response()->json($job);
     }

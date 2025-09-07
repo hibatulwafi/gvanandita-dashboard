@@ -46,6 +46,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_profile_complete')->default(false);
+            $table->text('remember_token')->nullable();
 
             // Log Waktu
             $table->timestamps();

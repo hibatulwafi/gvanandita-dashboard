@@ -60,7 +60,8 @@ Route::prefix('candidate')->group(function () {
     Route::post('/login', [AuthCandidateController::class, 'login']);
     Route::post('/register', [AuthCandidateController::class, 'register']);
     Route::get('/jobs', [JobListingController::class, 'indexPublic']);
-    Route::get('/jobs/{id}', [JobListingController::class, 'showPublic']);
+    Route::get('/jobs-filters', [JobListingController::class, 'filtersPublic']);
+    Route::get('/jobs/{slug}', [JobListingController::class, 'showPublic']);
     Route::middleware('auth:candidate')->group(function () {
         Route::post('/applications', [ApplicationController::class, 'store']);
         Route::get('/applications/history', [ApplicationController::class, 'history']);

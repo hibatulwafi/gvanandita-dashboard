@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
 
             $table->string('job_title');
+            $table->string('slug')->unique();
             $table->longText('description');
             $table->string('job_location_type', 50)->default('On-site');
             $table->string('experience_level', 50);

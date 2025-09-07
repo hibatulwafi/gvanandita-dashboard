@@ -15,6 +15,7 @@ class HhJobListing extends Model
         'company_id',
         'category_id',
         'job_title',
+        'slug',
         'description',
         'job_location_type',
         'experience_level',

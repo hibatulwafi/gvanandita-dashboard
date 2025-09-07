@@ -20,7 +20,10 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="space-y-1">
                         <label for="salary_currency" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Currency</label>
-                        <input type="text" name="salary_currency" id="salary_currency" class="form-control" value="{{ old('salary_currency', $job->salary_currency ?? '') }}">
+                        <select name="salary_currency" id="salary_currency" class="form-control">
+                            <option value="IDR" {{ old('salary_currency', $job->salary_currency ?? '') === 'IDR' ? 'selected' : '' }}>IDR</option>
+                            <option value="USD" {{ old('salary_currency', $job->salary_currency ?? '') === 'USD' ? 'selected' : '' }}>USD</option>
+                        </select>
                     </div>
                     <div class="space-y-1">
                         <label for="min_salary" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Min Salary</label>
@@ -118,14 +121,26 @@
                 <!-- Checkboxes -->
                 <div class="space-y-2">
                     <div class="flex items-center space-x-2">
-                        <input type="checkbox" name="is_open" value="1" id="is_open" class="rounded" @if(isset($job) && $job->is_open) checked @endif>
-                        <label for="is_open" class="text-sm font-medium text-gray-700 dark:text-gray-300">Is Open</label>
+                        <!-- hidden untuk value 0 -->
+                        <input type="hidden" name="is_open" value="0">
+                        <input type="checkbox" name="is_open" value="1" id="is_open" class="rounded"
+                            @if(isset($job) && $job->is_open) checked @endif>
+                        <label for="is_open" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Is Open
+                        </label>
                     </div>
+
                     <div class="flex items-center space-x-2">
-                        <input type="checkbox" name="is_featured" value="1" id="is_featured" class="rounded" @if(isset($job) && $job->is_featured) checked @endif>
-                        <label for="is_featured" class="text-sm font-medium text-gray-700 dark:text-gray-300">Is Featured</label>
+                        <!-- hidden untuk value 0 -->
+                        <input type="hidden" name="is_featured" value="0">
+                        <input type="checkbox" name="is_featured" value="1" id="is_featured" class="rounded"
+                            @if(isset($job) && $job->is_featured) checked @endif>
+                        <label for="is_featured" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Is Featured
+                        </label>
                     </div>
                 </div>
+
 
                 <!-- Dates -->
                 <div class="space-y-1">
