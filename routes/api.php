@@ -65,6 +65,7 @@ Route::prefix('candidate')->group(function () {
     Route::middleware('auth:candidate')->group(function () {
         Route::post('/applications', [ApplicationController::class, 'store']);
         Route::get('/applications/history', [ApplicationController::class, 'history']);
+        Route::put('/profile', [AuthCandidateController::class, 'updateProfile']);
     });
 });
 // Protected API routes

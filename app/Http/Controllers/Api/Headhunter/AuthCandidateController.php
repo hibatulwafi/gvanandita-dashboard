@@ -107,4 +107,50 @@ class AuthCandidateController extends Controller
             'token'   => $token,
         ], 201);
     }
+
+    public function updateProfile(Request $request)
+    {
+        $candidate = Auth::user(); // ambil user yang sedang login (pakai sanctum)
+
+        if (!$candidate) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Validasi data yang boleh di-update
+        $validated = $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name'  => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:50',
+            'address' => 'nullable|string',
+
+            'current_job_title' => 'nullable|string|max:255',
+            'current_company'   => 'nullable|string|max:255',
+            'employment_status' => 'nullable|in:employed,unemployed,freelancer',
+            'work_experience_years' => 'nullable|string|max:20',
+            'skills' => 'nullable|string',
+
+            'current_salary'  => 'nullable|numeric',
+            'expected_salary' => 'nullable|numeric',
+            'willing_to_relocate' => 'nullable|in:yes,no,negotiable',
+
+            'portfolio_url' => 'nullable|url',
+            'linkedin_url'  => 'nullable|url',
+
+            'resume_path' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+
+        // handle upload resume jika ada
+        if ($request->hasFile('resume_path')) {
+            $resumePath = $request->file('resume_path')->store('resumes', 'public');
+            $validated['resume_path'] = $resumePath;
+        }
+
+        // update kandidat
+        $candidate->update($validated);
+
+        return response()->json([
+            'message' => 'Profil berhasil diperbarui',
+            'user'    => $candidate,
+        ]);
+    }
 }
