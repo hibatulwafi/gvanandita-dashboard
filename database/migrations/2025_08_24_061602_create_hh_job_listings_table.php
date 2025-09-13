@@ -29,7 +29,8 @@ return new class extends Migration
             $table->decimal('min_salary', 12, 2)->nullable();
             $table->decimal('max_salary', 12, 2)->nullable();
 
-            $table->enum('job_type', ['full-time', 'part-time', 'contract', 'freelance'])->nullable();
+            $table->enum('job_type', ['full-time', 'part-time', 'contract', 'freelance', 'internship', 'temporary'])->nullable();
+            $table->boolean('is_show_salary')->default(true);
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_open')->default(true);
 

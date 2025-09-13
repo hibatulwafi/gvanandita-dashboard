@@ -47,10 +47,20 @@
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Email') }}:</span>
                             <span class="text-gray-900 dark:text-white">{{ optional($application->candidate)->email ?? 'N/A' }}</span>
                         </div>
+
                         <div class="flex items-center">
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Phone') }}:</span>
-                            <span class="text-gray-900 dark:text-white">{{ optional($application->candidate)->phone_number ?? 'N/A' }}</span>
+
+                            @if ($application->candidate && $application->candidate->wa_number)
+                            <a href="https://wa.me/{{ $application->candidate->wa_number }}" target="_blank"
+                                class="text-green-600 hover:underline dark:text-green-400">
+                                {{ $application->candidate->phone_number }}
+                            </a>
+                            @else
+                            <span class="text-gray-900 dark:text-white">N/A</span>
+                            @endif
                         </div>
+
                         <div class="flex items-center">
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Experience') }}:</span>
                             <span class="text-gray-900 dark:text-white">{{ optional($application->candidate)->work_experience_years ?? 'N/A' }} years</span>
@@ -82,6 +92,26 @@
                         <div class="flex items-center">
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Profile Status') }}:</span>
                             <span class="text-gray-900 dark:text-white">{{ optional($application->candidate)->is_profile_complete ? 'Complete' : 'Incomplete' }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Portfolio') }}:</span>
+                            <span>
+                                @if(optional($application->candidate)->portfolio_url)
+                                <a href="{{ $application->candidate->portfolio_url }}" target="_blank" class="text-blue-500 underline">{{ __('View Portfolio') }}</a>
+                                @else
+                                <span class="text-gray-500">{{ __('Not provided') }}</span>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('LinkedIn') }}:</span>
+                            <span>
+                                @if(optional($application->candidate)->linkedin_url)
+                                <a href="{{ $application->candidate->linkedin_url }}" target="_blank" class="text-blue-500 underline">{{ __('View LinkedIn') }}</a>
+                                @else
+                                <span class="text-gray-500">{{ __('Not provided') }}</span>
+                                @endif
+                            </span>
                         </div>
                         <div class="flex items-center">
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Resume') }}:</span>
@@ -129,9 +159,23 @@
                         <div class="flex items-center">
                             <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Description') }}:</span>
                         </div>
-                        <p class="mt-2 text-gray-900 dark:text-white prose dark:prose-invert">
-                            {{ optional($application->jobListing)->description ?? 'N/A' }}
-                        </p>
+                        <div class="flex items-start">
+                            <span class="font-medium text-gray-600 w-32 dark:text-gray-400">{{ __('Description') }}:</span>
+                            <div x-data="{ expanded: false }" class="flex-1">
+                                <div
+                                    x-bind:class="expanded ? '' : 'truncate-text'"
+                                    class="mt-2 text-gray-900 dark:text-white prose dark:prose-invert transition-all duration-300">
+                                    {!! optional($application->jobListing)->description ?? 'N/A' !!}
+                                </div>
+
+                                @if(optional($application->jobListing)->description)
+                                <button @click="expanded = !expanded"
+                                    class="text-blue-600 hover:underline mt-2 block">
+                                    <span x-text="expanded ? 'Show less' : 'Show more'"></span>
+                                </button>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,4 +211,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 5; /* Number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
 @endsection

@@ -25,6 +25,7 @@ class HhJobListing extends Model
         'min_salary',
         'max_salary',
         'job_type',
+        'is_show_salary',
         'is_featured',
         'is_open',
         'expires_at',
@@ -32,6 +33,7 @@ class HhJobListing extends Model
     ];
 
     protected $casts = [
+        'is_show_salary'=> 'boolean',
         'is_featured' => 'boolean',
         'is_open'     => 'boolean',
         'expires_at'  => 'datetime',

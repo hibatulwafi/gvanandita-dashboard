@@ -60,7 +60,7 @@
                 <div class="space-y-1">
                     <h3 class="text-base font-medium text-gray-700 dark:text-white">Address</h3>
                     <div class="space-y-1">
-                        <textarea name="address" rows="3" class="w-full border rounded-lg p-2">{{ old('address', $company->address ?? '') }}</textarea>
+                        <textarea name="address" rows="3" class="form-control w-full border rounded-lg p-2">{{ old('address', $company->address ?? '') }}</textarea>
                     </div>
                 </div>
             </div>

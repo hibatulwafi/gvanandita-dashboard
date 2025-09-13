@@ -33,6 +33,7 @@ class HhJobListingFactory extends Factory
             'min_salary' => $this->faker->numberBetween(5_000_000, 10_000_000),
             'max_salary' => $this->faker->numberBetween(10_000_000, 25_000_000),
             'job_type' => $this->faker->randomElement(['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary']),
+            'is_show_salary' => $this->faker->boolean(80), // 80% chance to show salary
             'is_featured' => $this->faker->boolean(20), // 20% chance to be featured
             'is_open' => true,
             'expires_at' => $this->faker->dateTimeBetween('+1 month', '+3 months'),

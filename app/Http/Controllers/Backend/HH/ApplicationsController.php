@@ -37,6 +37,21 @@ class ApplicationsController extends Controller
     {
         $application = HhApplication::with(['candidate', 'jobListing'])->findOrFail($id);
 
+        $phone = optional($application->candidate)->phone_number;
+        if ($phone) {
+            $phone = preg_replace('/\D+/', '', $phone);
+
+            if (substr($phone, 0, 2) === '08') {
+                $phone = '62' . substr($phone, 1);
+            }
+
+            if (substr($phone, 0, 1) === '0') {
+                $phone = '62' . substr($phone, 1);
+            }
+        }
+
+        $application->candidate->wa_number = $phone;
+
         return view('backend.pages.applications.show', compact('application'))
             ->with([
                 'breadcrumbs' => [
@@ -47,6 +62,7 @@ class ApplicationsController extends Controller
                 ],
             ]);
     }
+
 
     /**
      * Update the status and feedback for a job application.

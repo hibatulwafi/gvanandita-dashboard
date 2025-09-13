@@ -15,7 +15,8 @@ class CandidateService
 {
     public function get(array $filters): LengthAwarePaginator
     {
-        $query = HhCandidate::query();
+        $query = HhCandidate::query()
+            ->orderByDesc('created_at');
 
         if (isset($filters['search'])) {
             $query->where(function (Builder $q) use ($filters) {

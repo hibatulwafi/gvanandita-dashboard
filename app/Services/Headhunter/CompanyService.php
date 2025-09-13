@@ -13,7 +13,7 @@ class CompanyService
 {
     public function get(array $filters): LengthAwarePaginator
     {
-        $query = HhCompany::query();
+        $query = HhCompany::query()->orderBy('created_at', 'desc');
 
         if (!empty($filters['search'])) {
             $search = "%{$filters['search']}%";

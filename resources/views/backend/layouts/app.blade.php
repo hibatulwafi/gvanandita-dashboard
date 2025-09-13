@@ -8,6 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name'))</title>
 
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <link rel="icon" href="{{ config('settings.site_favicon') ?? asset('favicon.ico') }}" type="image/x-icon">
 
     @include('backend.layouts.partials.theme-colors')
@@ -21,7 +24,9 @@
 
     @if (!empty(config('settings.global_custom_css')))
     <style>
-        {!! config('settings.global_custom_css') !!}
+        {
+            ! ! config('settings.global_custom_css') ! !
+        }
     </style>
     @endif
 
@@ -37,7 +42,7 @@
     sidebarToggle: $persist(false),
     scrollTop: false
 }"
-x-init="
+    x-init="
     darkMode = JSON.parse(localStorage.getItem('darkMode')) ?? false;
     $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)));
     $watch('sidebarToggle', value => localStorage.setItem('sidebarToggle', JSON.stringify(value)));
@@ -47,7 +52,7 @@ x-init="
         document.querySelector('.app-container').classList.add('loaded');
     });
 "
-:class="{ 'dark bg-gray-900': darkMode === true }">
+    :class="{ 'dark bg-gray-900': darkMode === true }">
 
     <!-- Page Wrapper with smooth fade-in -->
     <div class="app-container flex h-screen overflow-hidden">
@@ -67,7 +72,7 @@ x-init="
                 @yield('admin-content')
 
                 @isset($slot)
-                    {{ $slot }}
+                {{ $slot }}
                 @endisset
             </main>
             <!-- End Main Content -->
@@ -134,7 +139,9 @@ x-init="
 
     @if (!empty(config('settings.global_custom_js')))
     <script>
-        {!! config('settings.global_custom_js') !!}
+        {
+            !!config('settings.global_custom_js') !!
+        }
     </script>
     @endif
 
@@ -186,5 +193,23 @@ x-init="
 
     @livewireScriptConfig
     {!! ld_apply_filters('admin_footer_after', '') !!}
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("#published_at", {
+                dateFormat: "Y-m-d",
+                allowInput: true
+            });
+
+            flatpickr("#expires_at", {
+                dateFormat: "Y-m-d",
+                allowInput: true
+            });
+        });
+    </script>
+
 </body>
+
 </html>
