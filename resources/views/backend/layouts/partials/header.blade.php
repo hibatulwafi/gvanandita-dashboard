@@ -42,8 +42,8 @@ x-init="init()"
             </button>
 
             <a href="{{ route('admin.dashboard') }}" class="lg:hidden">
-                <img class="dark:hidden w-32" src="/images/logo/app-logo.png" alt="Logo" />
-                <img class="hidden dark:block w-32" src="/images/logo/app-logo-dark.png" alt="Logo" />
+                <img class="dark:hidden w-32" src="/images/logo/app-logo-line.png" alt="Logo" />
+                <img class="hidden dark:block w-32" src="/images/logo/app-logo-line-dark.png" alt="Logo" />
             </a>
         </div>
 
@@ -62,13 +62,13 @@ x-init="init()"
                 </button>
                 @php ld_apply_filters('dark_mode_toggler_after_button', '') @endphp
 
-                @if (env('GITHUB_LINK') )
+                <!-- @if (env('GITHUB_LINK') )
                     <a href="{{ env('GITHUB_LINK') }}" target="_blank"
                         class="hover:text-dark-900 relative flex p-2 items-center justify-center rounded-full text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
                         <iconify-icon icon="lucide:github" width="22" height="22"
                             class=""></iconify-icon>
                     </a>
-                @endif
+                @endif -->
             </div>
 
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
