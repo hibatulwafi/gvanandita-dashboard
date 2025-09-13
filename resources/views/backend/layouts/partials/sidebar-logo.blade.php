@@ -23,39 +23,34 @@
     }"
     x-init="init()"
     @mouseenter="if(sidebarToggle) { isHovered = true; $el.classList.add('lg:w-[290px]'); $el.classList.remove('lg:w-[85px]', 'app-sidebar-minified'); }"
-    @mouseleave="if(sidebarToggle) { isHovered = false; $el.classList.add('lg:w-[85px]', 'app-sidebar-minified'); $el.classList.remove('lg:w-[290px]'); }"
->
+    @mouseleave="if(sidebarToggle) { isHovered = false; $el.classList.add('lg:w-[85px]', 'app-sidebar-minified'); $el.classList.remove('lg:w-[290px]'); }">
     <!-- Sidebar Header -->
     <div
         :class="sidebarToggle && !isHovered ? 'justify-center' : 'justify-between'"
-        class="justify-center flex items-center gap-2 sidebar-header py-5 px-6 h-[100px] transition-all duration-300"
-    >
+        class="justify-center flex items-center gap-2 sidebar-header py-5 px-6 h-[100px] transition-all duration-300">
         <a href="{{ route('admin.dashboard') }}">
             <span class="logo transition-opacity duration-300" :class="sidebarToggle && !isHovered ? 'hidden opacity-0' : 'opacity-100'">
                 <img
-                    class="dark:hidden max-h-[80px]"
+                    class="dark:hidden max-h-[80px] drop-shadow-2xl border"
                     src="{{ config('settings.site_logo_lite') ?? asset('images/logo/app-logo.png') }}"
-                    alt="{{ config('app.name') }}"
-                />
+                    alt="{{ config('app.name') }}" />
                 <img
-                    class="hidden dark:block max-h-[80px]"
+                    class="hidden dark:block max-h-[80px] drop-shadow-2xl"
                     src="{{ config('settings.site_logo_dark') ?? '/images/logo/app-logo-dark.png' }}"
-                    alt="{{ config('app.name') }}"
-                />
+                    alt="{{ config('app.name') }}" />
             </span>
             <img
-                class="logo-icon w-20 lg:w-12 transition-opacity duration-300"
+                class="logo-icon w-20 lg:w-12 transition-opacity duration-300 drop-shadow-lg"
                 :class="sidebarToggle && !isHovered ? 'lg:block opacity-100' : 'hidden opacity-0'"
                 src="{{ config('settings.site_icon') ?? '/images/logo/icon.png' }}"
-                alt="{{ config('app.name') }}"
-            />
+                alt="{{ config('app.name') }}" />
         </a>
+
     </div>
     <!-- End Sidebar Header -->
 
     <div
-        class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar"
-    >
+        class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         @include('backend.layouts.partials.sidebar-menu')
     </div>
 </aside>
